@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: #000;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Soft pink neon glow for large text */
+.glow-text {
+  color: #ff5cb8;
+  text-shadow:
+    0 0 4px rgba(255, 92, 184, 0.9),
+    0 0 14px rgba(255, 20, 147, 0.75),
+    0 0 36px rgba(255, 20, 147, 0.45);
+}
+
+.glow-box {
+  box-shadow:
+    0 0 16px rgba(255, 20, 147, 0.35),
+    inset 0 0 18px rgba(255, 20, 147, 0.12);
+}
+
+.glow-button {
+  box-shadow:
+    0 0 14px rgba(255, 20, 147, 0.6),
+    0 0 36px rgba(255, 20, 147, 0.35);
+}
+
+/* Keypad keys */
+.key-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 20, 147, 0.55);
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffb3dc;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(255, 20, 147, 0.8);
+  box-shadow:
+    0 0 12px rgba(255, 20, 147, 0.3),
+    inset 0 0 8px rgba(255, 20, 147, 0.12);
+  touch-action: manipulation;
+  user-select: none;
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+@media (min-width: 640px) {
+  .key-btn {
+    height: 5rem;
+    font-size: 2rem;
+  }
+}
+
+.key-btn:hover {
+  background: rgba(255, 20, 147, 0.15);
+}
+
+.key-btn:active:not(:disabled) {
+  transform: scale(0.93);
+  background: rgba(255, 20, 147, 0.3);
+  box-shadow: 0 0 22px rgba(255, 20, 147, 0.7);
+}
+
+.key-btn:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* Soft fade + gentle zoom */
+@keyframes fade-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-zoom {
+  animation: fade-zoom 0.9s ease-out backwards;
+}
+
+/* Pulsing caption during the vortex ride */
+@keyframes drift-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-drift-pulse {
+  animation: drift-pulse 1.6s ease-in-out infinite;
+}
+
+/* Round photo icons floating over the galaxy */
+.galaxy-icon {
+  box-shadow:
+    0 0 12px rgba(255, 20, 147, 0.8),
+    0 0 32px rgba(255, 20, 147, 0.45),
+    inset 0 0 8px rgba(255, 20, 147, 0.3);
+  cursor: pointer;
+  will-change: transform, opacity;
+  animation: icon-breathe 2.6s ease-in-out infinite;
+}
+
+.galaxy-icon:active {
+  transform-origin: center;
+}
+
+@keyframes icon-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 0 10px rgba(255, 20, 147, 0.7),
+      0 0 26px rgba(255, 20, 147, 0.35),
+      inset 0 0 8px rgba(255, 20, 147, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 18px rgba(255, 20, 147, 1),
+      0 0 46px rgba(255, 20, 147, 0.6),
+      inset 0 0 8px rgba(255, 20, 147, 0.3);
+  }
+}
+
+/* Title entrance once the galaxy is reached */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-rise-in {
+  animation: rise-in 1.4s ease-out backwards;
+}
