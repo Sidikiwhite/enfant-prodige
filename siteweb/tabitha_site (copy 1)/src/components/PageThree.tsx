@@ -70,9 +70,6 @@ export default function PageThree({ onBack }: PageThreeProps) {
                   </span>
                 </span>
               )}
-              <span className="absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/80 to-transparent px-2 pt-4 pb-1 text-center text-[11px] font-medium tracking-wide text-pink-100 sm:text-xs">
-                {item.title}
-              </span>
             </button>
           ))}
         </div>
