@@ -1,9 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import MatrixRain from "./components/MatrixRain";
 import CodePage from "./components/CodePage";
 import Message from "./components/Message";
-import PageTwo from "./components/PageTwo";
 import PageThree from "./components/PageThree";
+
+/**
+ * La galaxie 3D embarque three.js (≈600 Ko) : elle n'est utile qu'à partir de
+ * la page 2. On la charge à la demande pour ne pas pénaliser le premier
+ * affichage sur téléphone.
+ */
+const PageTwo = lazy(() => import("./components/PageTwo"));
 
 type Phase =
   | "code" // page 1: code entry
@@ -17,6 +23,15 @@ const CONTENT_FADE_MS = 1000;
 
 export default function App() {
   const [phase, setPhase] = useState<Phase>("code");
+
+  // Une fois le premier écran peint, on télécharge la galaxie en tâche de fond
+  // pour que l'arrivée sur la page 2 reste instantanée.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      void import("./components/PageTwo");
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleValidate = useCallback(() => setPhase("fading"), []);
 
@@ -57,7 +72,9 @@ export default function App() {
       )}
 
       {showGalaxy && (
-        <PageTwo onOpenLibrary={goToPage3} dimmed={phase === "page3"} />
+        <Suspense fallback={<div className="absolute inset-0 bg-black" />}>
+          <PageTwo onOpenLibrary={goToPage3} dimmed={phase === "page3"} />
+        </Suspense>
       )}
 
       {phase === "page3" && <PageThree onBack={backToPage2} />}

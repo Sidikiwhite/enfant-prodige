@@ -1,1 +1,8 @@
 node_modules/
+.optimize.log
+*.log
+dist/
+
+# Originaux non compressés : ne jamais les pousser (≈95 Mo).
+# Les versions optimisées vivent dans public/assets/library/.
+medias/

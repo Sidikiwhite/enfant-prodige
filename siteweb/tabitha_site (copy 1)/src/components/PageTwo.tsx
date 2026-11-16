@@ -230,11 +230,14 @@ export default function PageTwo({ onOpenLibrary, dimmed }: PageTwoProps) {
   const startRef = useRef<number>(performance.now());
   const arrivalTimer = useRef<number>(0);
   const frozenRef = useRef(false);
+  /** Vrai quand une autre page couvre la galaxie : on arrête le rendu WebGL. */
+  const pausedRef = useRef(false);
   const [arrived, setArrived] = useState(false);
   const [skipped, setSkipped] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
 
   frozenRef.current = dimmed === true || selected !== null;
+  pausedRef.current = dimmed === true;
 
   const skipVortex = useCallback(() => {
     startRef.current = performance.now() - VORTEX_MS - 1;
@@ -662,6 +665,14 @@ export default function PageTwo({ onOpenLibrary, dimmed }: PageTwoProps) {
 
     const animate = (): void => {
       raf = requestAnimationFrame(animate);
+
+      // La bibliothèque est ouverte : on ne dessine rien. Cela libère le GPU
+      // et le CPU pour le décodage des vidéos (essentiel sur mobile).
+      if (pausedRef.current) {
+        clock.getDelta(); // on jette le temps écoulé pour éviter un saut
+        return;
+      }
+
       const dt = Math.min(clock.getDelta(), 0.05);
       const t = clock.elapsedTime;
       const elapsed = performance.now() - startRef.current;
